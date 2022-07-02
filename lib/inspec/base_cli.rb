@@ -118,6 +118,10 @@ module Inspec
         desc: "Disable SSL verification on select targets"
       option :target_id, type: :string,
         desc: "Provide a ID which will be included on reports"
+      option :winrm_shell_type, type: :string, default: "powershell",
+        desc: "Specify a shell type for winrm (eg. 'elevated' or 'powershell')"
+      option :docker_url, type: :string,
+        desc: "Provides path to Docker API endpoint (Docker)"
     end
 
     def self.profile_options
@@ -162,6 +166,13 @@ module Inspec
         desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
       option :sort_results_by, type: :string, default: "file", banner: "--sort-results-by=none|control|file|random",
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
+      option :filter_empty_profiles, type: :boolean, default: false,
+        desc: "Filter empty profiles (profiles without controls) from the report."
+      option :command_timeout, type: :numeric,
+        desc: "Maximum seconds to allow commands to run during execution.",
+        long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."
+      option :reporter_include_source, type: :boolean, default: false,
+        desc: "Include full source code of controls in the CLI report"
     end
 
     def self.help(*args)

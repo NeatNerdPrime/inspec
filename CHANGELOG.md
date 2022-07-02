@@ -1,19 +1,145 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.36.4 -->
+### Changes since 4.36.4 release
+
+#### Merged Pull Requests
+- Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 4.36.5 -->
+- Make sure we use chef-telemetry 1.0.8+ [#5491](https://github.com/inspec/inspec/pull/5491) ([tas50](https://github.com/tas50)) <!-- 4.36.5 -->
+- Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
+- Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50)) <!-- 4.36.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.36.4](https://github.com/inspec/inspec/tree/v4.36.4) (2021-04-29)
+
+#### New Features
+- Add selinux resource with basic feature support [#5458](https://github.com/inspec/inspec/pull/5458) ([Vasu1105](https://github.com/Vasu1105))
+- New input option `pattern` added for DSL and metadata inputs [#5466](https://github.com/inspec/inspec/pull/5466) ([Nik08](https://github.com/Nik08))
+
+#### Enhancements
+- Add selinux resource support for modules and booleans [#5463](https://github.com/inspec/inspec/pull/5463) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Bug Fixes
+- Fix for group resource when member does not exist [#5470](https://github.com/inspec/inspec/pull/5470) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Update faraday requirement from &gt;= 0.9.0, &lt; 1.4 to &gt;= 0.9.0, &lt; 1.5 [#5469](https://github.com/inspec/inspec/pull/5469) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Minor fix - Method expected to return boolean but it was returning nil if condition check fails [#5480](https://github.com/inspec/inspec/pull/5480) ([Vasu1105](https://github.com/Vasu1105))
+- updating Gemfile to support environment variables [#5485](https://github.com/inspec/inspec/pull/5485) ([jayashrig158](https://github.com/jayashrig158))
+- Group &amp; Groups doc updated - about using local and etc groups [#5483](https://github.com/inspec/inspec/pull/5483) ([Nik08](https://github.com/Nik08))
+- Added new property `members_array` for group &amp; groups resources. [#5479](https://github.com/inspec/inspec/pull/5479) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
+## [v4.33.1](https://github.com/inspec/inspec/tree/v4.33.1) (2021-04-21)
+
+#### New Features
+- Optionally include controls source code in CLI reporter [#5465](https://github.com/inspec/inspec/pull/5465) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update postgres_ident_conf.md [#5461](https://github.com/inspec/inspec/pull/5461) ([tobiasbp](https://github.com/tobiasbp))
+- Remove default of 3600 seconds for command timeout [#5472](https://github.com/inspec/inspec/pull/5472) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.32.0](https://github.com/inspec/inspec/tree/v4.32.0) (2021-04-14)
+
+#### New Features
+- Added ability to pass inputs to InSpec shell using input file and cli [#5452](https://github.com/inspec/inspec/pull/5452) ([Nik08](https://github.com/Nik08))
+
+## [v4.31.1](https://github.com/inspec/inspec/tree/v4.31.1) (2021-04-08)
+
+#### Bug Fixes
+- Use default command timeout value if timeout is 0 [#5455](https://github.com/inspec/inspec/pull/5455) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.31.0](https://github.com/inspec/inspec/tree/v4.31.0) (2021-04-07)
+
+#### New Features
+- Add --docker-url CLI option [#5445](https://github.com/inspec/inspec/pull/5445) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Fix for Deprecation warning and FilterTable::ExceptionCatcher to show exact failure message. [#5441](https://github.com/inspec/inspec/pull/5441) ([Vasu1105](https://github.com/Vasu1105))
+- Update inputs.md [#5449](https://github.com/inspec/inspec/pull/5449) ([IanMadd](https://github.com/IanMadd))
+- Add timeout option to command resource [#5443](https://github.com/inspec/inspec/pull/5443) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update platforms doc [#5442](https://github.com/inspec/inspec/pull/5442) ([IanMadd](https://github.com/IanMadd))
+- Bug fix for loading hashmap inputs consistently [#5446](https://github.com/inspec/inspec/pull/5446) ([Nik08](https://github.com/Nik08))
+
+## [v4.29.3](https://github.com/inspec/inspec/tree/v4.29.3) (2021-03-25)
+
+#### Bug Fixes
+- Fix for -controls option is not working as expected. [#5434](https://github.com/inspec/inspec/pull/5434) ([Vasu1105](https://github.com/Vasu1105))
+- Fix for executing git profiles independent of the name of the default branch [#5438](https://github.com/inspec/inspec/pull/5438) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Minor Docs edits [#5433](https://github.com/inspec/inspec/pull/5433) ([IanMadd](https://github.com/IanMadd))
+- Add quotation around -name option for apt resource to work properly with zsh [#5437](https://github.com/inspec/inspec/pull/5437) ([ymotongpoo](https://github.com/ymotongpoo))
+- Updates profile init for cloud platforms to use inputs [#5435](https://github.com/inspec/inspec/pull/5435) ([collinmcneese](https://github.com/collinmcneese))
+- Move Passthrough Config from Automate to JSON Reporter [#5430](https://github.com/inspec/inspec/pull/5430) ([tohch4](https://github.com/tohch4))
+- Update codeowners for docs [#5440](https://github.com/inspec/inspec/pull/5440) ([IanMadd](https://github.com/IanMadd))
+- Improve resource page menu titles [#5439](https://github.com/inspec/inspec/pull/5439) ([IanMadd](https://github.com/IanMadd))
+- Add m1 support to MacOS build list [#5432](https://github.com/inspec/inspec/pull/5432) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.28.0](https://github.com/inspec/inspec/tree/v4.28.0) (2021-03-17)
+
+#### New Features
+- Support &#39;clear_cache&#39; [#5266](https://github.com/inspec/inspec/pull/5266) ([Schwad](https://github.com/Schwad))
+
+#### Enhancements
+- Fixes #5373 : Add option to filter empty profiles from report [#5425](https://github.com/inspec/inspec/pull/5425) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Bug Fixes
+- Don&#39;t pass -u on AIX in crontab command [#5418](https://github.com/inspec/inspec/pull/5418) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add git to Docker build [#5420](https://github.com/inspec/inspec/pull/5420) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Remove .0 from macos builder name [#5413](https://github.com/inspec/inspec/pull/5413) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix backtrace occurs when using `cmp` to compare nil to an expectation [#5427](https://github.com/inspec/inspec/pull/5427) ([Vasu1105](https://github.com/Vasu1105))
+- Clarify include matcher docs on crontab resource [#5419](https://github.com/inspec/inspec/pull/5419) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update README to add note about Ruby 2.5 support [#5424](https://github.com/inspec/inspec/pull/5424) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Expose conf_path, content, and params on auditd_conf [#5422](https://github.com/inspec/inspec/pull/5422) ([yarick](https://github.com/yarick))
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.18 to &gt;= 0.2.1, &lt; 0.2.19 [#5423](https://github.com/inspec/inspec/pull/5423) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+
+## [v4.26.13](https://github.com/inspec/inspec/tree/v4.26.13) (2021-02-24)
+
+#### Bug Fixes
+- Skip controls deeply [#5411](https://github.com/inspec/inspec/pull/5411) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Use first value of repeated settings in ssh_config and sshd_config [#5414](https://github.com/inspec/inspec/pull/5414) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Fix dead links [#5399](https://github.com/inspec/inspec/pull/5399) ([IanMadd](https://github.com/IanMadd))
+- Fix another link [#5407](https://github.com/inspec/inspec/pull/5407) ([IanMadd](https://github.com/IanMadd))
+- Add metadata to each page in docs.chef.io/inspec, update Edit on GitHub links [#5406](https://github.com/inspec/inspec/pull/5406) ([IanMadd](https://github.com/IanMadd))
+- Update install.md [#5403](https://github.com/inspec/inspec/pull/5403) ([tduffield](https://github.com/tduffield))
+- Update chefstyle requirement from ~&gt; 1.5.7 to ~&gt; 1.7.1 [#5409](https://github.com/inspec/inspec/pull/5409) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Document the json-automate reporter [#5408](https://github.com/inspec/inspec/pull/5408) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Switch to MacOS 10.14 builder [#5415](https://github.com/inspec/inspec/pull/5415) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.26.4](https://github.com/inspec/inspec/tree/v4.26.4) (2021-01-27)
+
+#### Enhancements
+- Add method_missing to nginx_conf [#5285](https://github.com/inspec/inspec/pull/5285) ([rgeissert](https://github.com/rgeissert))
+
+#### Bug Fixes
+- Add faraday_middleware to gemspec [#5391](https://github.com/inspec/inspec/pull/5391) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update oracledb_session.rb [#5193](https://github.com/inspec/inspec/pull/5193) ([pacopal](https://github.com/pacopal))
+- Add option for winrm-shell-type [#5263](https://github.com/inspec/inspec/pull/5263) ([catriona1](https://github.com/catriona1))
+- Enable programmatic setting of plugin configuration [#5393](https://github.com/inspec/inspec/pull/5393) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Pin back parslet to avoid conflict with toml in chef infra [#5394](https://github.com/inspec/inspec/pull/5394) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Improve programmatic plugin configuration [#5395](https://github.com/inspec/inspec/pull/5395) ([tecracer-theinen](https://github.com/tecracer-theinen))
+
 ## [v4.25.1](https://github.com/inspec/inspec/tree/v4.25.1) (2021-01-20)
 
 #### Merged Pull Requests
 - Allow for rspec 3.9 in the gemspec [#5381](https://github.com/inspec/inspec/pull/5381) ([tas50](https://github.com/tas50))
 - Build arm packages for Debian/SLES/Ubuntu [#5386](https://github.com/inspec/inspec/pull/5386) ([tas50](https://github.com/tas50))
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.12 to &gt;= 0.2.1, &lt; 0.2.18 [#5356](https://github.com/inspec/inspec/pull/5356) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
-<!-- latest_stable_release -->
 
 ## [v4.24.32](https://github.com/inspec/inspec/tree/v4.24.32) (2021-01-13)
 

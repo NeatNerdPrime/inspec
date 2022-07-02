@@ -178,6 +178,27 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     assert_exit_code 100, out
   end
 
+  it "executes only specified controls when selecting the controls by literal names" do
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls foo")
+    _(out.stdout).must_include "foo"
+    _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting the controls by regex" do
+    inspec("exec " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --controls '/^11_pass/'")
+    _(out.stdout).must_include "11_pass"
+    _(out.stdout).must_include "11_pass2"
+    _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
   it "executes only specified controls when selecting passing controls by literal names" do
     inspec("exec " + File.join(profile_path, "filter_table") + " --no-create-lockfile --controls 2943_pass_undeclared_field_in_hash 2943_pass_irregular_row_key")
 
@@ -1028,6 +1049,70 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
         _(@json.dig("profiles", 0, "controls", 2, "results", 0, "status")).must_equal "skipped"
         _(@json.dig("profiles", 0, "controls", 3, "results", 0, "status")).must_equal "skipped"
       end
+    end
+  end
+
+  describe "when running a profile using timeouts on a command resource" do
+    let(:profile) { "#{profile_path}/timeouts" }
+
+    describe "when using the DSL command resource option" do
+      let(:run_result) { run_inspec_process("exec #{profile}") }
+
+      it "properly timesout an inlined command resource" do
+        # Command timeout not available on local windows pipe train transports
+        skip if windows?
+        _(run_result.stderr).must_be_empty
+
+        # Control with inline timeout should be interrupted correctly
+        _(run_result.stdout).must_include "Command `sleep 10; echo oops` timed out after 2 seconds"
+        # Subsequent control must still run correctly
+        _(run_result.stdout).must_include "Command: `echo hello` exit_status is expected to cmp == 0"
+      end
+    end
+
+    describe "when using the CLI option to override the command timeout" do
+      let(:run_result) { run_inspec_process("exec #{profile} --command-timeout 1") }
+      it "properly overrides the DSL setting with the CLI timeout option" do
+        # Command timeout not available on local windows pipe train transports
+        skip if windows?
+        _(run_result.stderr).must_be_empty
+
+        # Command timeout should be interrupted correctly, with CLI timeout applied
+        _(run_result.stdout).must_include "Command `sleep 10; echo oops` timed out after 1 seconds"
+        # Subsequent control must still run correctly
+        _(run_result.stdout).must_include "Command: `echo hello` exit_status is expected to cmp == 0"
+      end
+    end
+  end
+
+  describe "when using the --reporter-include-source option with the CLI reporter" do
+    let(:profile) { "#{profile_path}/sorted-results/sort-me-1" } # A profile with controls separated in multiple files
+    let(:run_result) { run_inspec_process("exec #{profile} --reporter-include-source") }
+    it "includes the control source code" do
+      _(run_result.stderr).must_be_empty
+
+      expected = %r{Control Source from .+test/fixtures/profiles/sorted-results/sort-me-1/controls/a-uvw.rb:1..6}
+      _(run_result.stdout).must_match expected
+      expected = <<EOT
+     control "w" do
+       describe "anything" do
+         it { should eq "anything" }
+       end
+     end
+EOT
+      _(run_result.stdout).must_include expected
+
+      expected = %r{Control Source from .+test/fixtures/profiles/sorted-results/sort-me-1/controls/c-rst.rb:1..6}
+      _(run_result.stdout).must_match expected
+      expected = <<EOT
+     control "r" do
+       describe "anything" do
+         it { should eq "anything" }
+       end
+     end
+EOT
+      _(run_result.stdout).must_include expected
+
     end
   end
 end

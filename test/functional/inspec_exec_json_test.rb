@@ -1,5 +1,6 @@
 require "functional/helper"
 require "json_schemer"
+require "tempfile"
 
 describe "inspec exec with json formatter" do
   include FunctionalHelper
@@ -421,6 +422,28 @@ describe "inspec exec with json formatter" do
     end
   end
 
+  describe "JSON reporter" do
+    describe "with --no-filter-empty-profiles option" do
+      let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/uses-resource-pack --no-filter-empty-profiles", json: true) }
+      let(:profiles) { @json["profiles"] }
+
+      it "does not filter the empty profiles(profiles without controls)" do
+        _(run_result.stderr).must_be_empty
+        _(profiles.count).must_equal 2
+      end
+    end
+
+    describe "with --filter-empty-profiles option" do
+      let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/uses-resource-pack --filter-empty-profiles", json: true) }
+      let(:profiles) { @json["profiles"] }
+
+      it "does filter the empty profiles (profiles without controls)" do
+        _(run_result.stderr).must_be_empty
+        _(profiles.count).must_equal 1
+      end
+    end
+  end
+
   describe "JSON reporter using the --sort-results-by option" do
     let(:run_result) { run_inspec_process("exec #{profile_path}/sorted-results/sort-me-1 --sort-results-by #{sort_option}", json: true) }
     let(:control_order) { @json["profiles"][0]["controls"].map { |c| c["id"] }.join("") }
@@ -456,5 +479,68 @@ describe "inspec exec with json formatter" do
         _(control_order).wont_equal "wvuzyxtsr"
       end
     end
+  end
+
+  # Issue 5300
+  describe "deep skip control" do
+    let(:run_result) { run_inspec_process("exec #{profile_path}/dependencies/deep-skip-outer", json: true) }
+    let(:inner_profile_controls) { @json["profiles"][2]["controls"] }
+    it "skips a control two levels down" do
+      _(run_result.stderr).must_be_empty
+      # Should skip the second control labelled "skipme" because there is a skip_control in the outer profile
+      _(inner_profile_controls.count).must_equal 1
+    end
+  end
+
+  describe "JSON reporter with a config" do
+    let(:config_path) do
+      @file = Tempfile.new("config.json")
+      @file.write(config_data)
+      @file.close
+      @file.path
+    end
+
+    after do
+      @file.unlink
+    end
+
+    let(:invocation) do
+      "exec #{complete_profile} --config #{config_path}"
+    end
+
+    let(:run_result) { run_inspec_process(invocation) }
+
+    describe "and the config specifies passthrough data" do
+      let(:config_data) do
+        <<~END
+          {
+            "reporter": {
+              "json": {
+                "stdout": true,
+                "passthrough": {
+                  "a": 1,
+                  "b": false
+                }
+              }
+            }
+          }
+        END
+      end
+
+      it "should include passthrough data" do
+        _(run_result.stderr).must_equal ""
+
+        json = JSON.parse(run_result.stdout)
+
+        %w{
+          passthrough
+        }.each do |field|
+          _(json.keys).must_include field
+        end
+
+        assert_exit_code 0, run_result
+      end
+    end
+
   end
 end

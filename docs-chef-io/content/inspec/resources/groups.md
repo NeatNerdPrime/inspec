@@ -1,6 +1,7 @@
 +++
 title = "groups resource"
 draft = false
+gh_repo = "inspec"
 platform = "os"
 
 [menu]
@@ -10,9 +11,13 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/resources/groups.md)
-
 Use the `groups` Chef InSpec audit resource to test multiple groups on the system.
+
+The `groups` resource uses the following system groups:
+
+- On **non-Windows** systems the group resource tests local groups defined in the`/etc/group` file.
+
+- On **Windows** systems the group resource tests local groups defined by Local Users and Groups.
 
 ## Availability
 
@@ -74,6 +79,24 @@ The `members` property tests the members that belong to a group:
 
     its('members') { should include 'root' }
     its('members') { should include 'Administrator' }
+
+where `members` returns:
+
+- an array of group members for **Windows Platform**.
+
+    Example: `["member1", "member2"]`
+
+- a single element array that contains a CSV string of group members for **Non-Windows Platforms**.
+
+    Example: `["member1,member2"]`
+
+### members_array
+
+The `members_array` property tests the group members just like the `members` property,
+but the value returned by this property is always an array of group members.
+
+    its('members_array') { should include 'root' }
+    its('members_array') { should include 'Administrator' }
 
 ## Matchers
 

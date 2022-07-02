@@ -171,6 +171,7 @@ class MockLoader
       "/etc/cron.d/crondotd" => mockfile.call("crondotd"),
       "/etc/postfix/main.cf" => mockfile.call("main.cf"),
       "/etc/postfix/other.cf" => mockfile.call("other.cf"),
+      "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
     }
 
     # create all mock commands
@@ -344,7 +345,7 @@ class MockLoader
       "host -t AAAA example.com" => cmd.call("host-AAAA-example.com"),
       "ping -W 1 -c 1 example.com" => cmd.call("ping-example.com"),
       # apt
-      "find /etc/apt/ -name *.list -exec sh -c 'cat {} || echo -n' \\;" => cmd.call("etc-apt"),
+      "find /etc/apt/ -name \"*.list\" -exec sh -c 'cat {} || echo -n' \\;" => cmd.call("etc-apt"),
       # iptables
       "/usr/sbin/iptables  -S" => cmd.call("iptables-s"),
       %{sh -c 'type "/usr/sbin/iptables"'} => empty.call,
@@ -556,7 +557,18 @@ class MockLoader
 
       # filesystem command
       "2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0" => cmd.call("get-wmiobject-filesystem"),
+      "sestatus" => cmd.call("sestatus"),
+      "semodule -lfull" => cmd.call("semodule-lfull"),
+      "semanage boolean -l -n" => cmd.call("semanage-boolean"),
     }
+
+    if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
+      mock_cmds.merge!(
+          "sestatus" => empty.call,
+          "semodule -lfull" => empty.call,
+          "semanage boolean -l -n" => empty.call
+        )
+    end
 
     # ports on linux
     # allow the ss and/or netstat commands to exist so the later mock is called
